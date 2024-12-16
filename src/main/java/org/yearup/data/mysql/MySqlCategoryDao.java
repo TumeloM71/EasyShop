@@ -60,16 +60,16 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
     {
         String sql = "INSERT INTO categories (name, description) VALUES(?, ?)";
         try (Connection connection = this.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql))
+             PreparedStatement statement = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS))
         {
             statement.setString(1,category.getName());
             statement.setString(2,category.getDescription());
             doUpdate(statement);
-
+            int key = getAddedKey(statement);
+            return new Category(key, category.getName(), category.getDescription());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     private void doUpdate(PreparedStatement statement) throws SQLException {
@@ -77,6 +77,18 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         System.out.println("Rows updated: "+rows);
     }
 
+    private int getAddedKey(PreparedStatement statement){
+
+        try (ResultSet keys = statement.getGeneratedKeys()
+        ) {
+            if (keys.next()) {
+                return keys.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return -1;
+    }
     @Override
     public void update(int categoryId, Category category)
     {

@@ -1,6 +1,7 @@
 package org.yearup.data.mysql;
 
 import org.springframework.stereotype.Component;
+import org.yearup.models.Category;
 import org.yearup.models.Product;
 import org.yearup.data.ProductDao;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Component
 public class MySqlProductDao extends MySqlDaoBase implements ProductDao
@@ -21,43 +23,54 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
     @Override
     public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color)
     {
-        List<Product> products = new ArrayList<>();
 
-        String sql = "SELECT * FROM products " +
-                "WHERE (category_id = ? OR ? = -1) " +
-                "   AND (price <= ? OR ? = -1) " +
-                "   AND (color = ? OR ? = '') ";
+        StringBuilder sql = new StringBuilder("SELECT * FROM products WHERE 1=1");
+        List<Product> output = new ArrayList<>();
 
-        categoryId = categoryId == null ? -1 : categoryId;
-        minPrice = minPrice == null ? new BigDecimal("-1") : minPrice;
-        maxPrice = maxPrice == null ? new BigDecimal("-1") : maxPrice;
-        color = color == null ? "" : color;
-
-        try (Connection connection = getConnection())
-        {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, categoryId);
-            statement.setInt(2, categoryId);
-            statement.setBigDecimal(3, minPrice);
-            statement.setBigDecimal(4, minPrice);
-            statement.setString(5, color);
-            statement.setString(6, color);
-
-            ResultSet row = statement.executeQuery();
-
-            while (row.next())
-            {
-                Product product = mapRow(row);
-                products.add(product);
-            }
+        if (categoryId != null) {
+            sql.append(" AND category_id = ?");
         }
-        catch (SQLException e)
+
+        if (minPrice != null) {
+            sql.append(" AND price >= ?");
+        }
+
+        if (maxPrice != null) {
+            sql.append(" AND price <= ?");
+        }
+
+        if (color != null) {
+            sql.append(" AND color LIKE ?");
+        }
+
+        try (Connection connection = this.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql.toString()))
         {
+            int index = 1;
+            if (categoryId != null) {
+                statement.setInt(index++, categoryId);
+            }
+            if (minPrice != null) {
+                statement.setBigDecimal(index++, minPrice);
+            }
+            if (maxPrice != null) {
+                statement.setBigDecimal(index++, maxPrice);
+            }
+            if (color != null) {
+                statement.setString(index++, color);
+            }
+
+            ResultSet rows = statement.executeQuery();
+            while (rows.next()){
+                output.add(mapRow(rows));
+            }
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return products;
+        return output;
     }
+
 
     @Override
     public List<Product> listByCategoryId(int categoryId)
@@ -87,7 +100,6 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
 
         return products;
     }
-
 
     @Override
     public Product getById(int productId)
