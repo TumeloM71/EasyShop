@@ -93,11 +93,32 @@ public class TokenProvider implements InitializingBean
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(authToken);
             return true;
         }
-        catch (Exception e)
+        catch (io.jsonwebtoken.ExpiredJwtException e)
         {
-            logger.info("Token Invalid.");
-            logger.trace("Token Invalid trace: {}.", e.toString());
+            logger.error("Token has expired: {}", e.getMessage());
         }
+        catch (io.jsonwebtoken.SignatureException e)
+        {
+            logger.error("Invalid JWT signature: {}", e.getMessage());
+        }
+        catch (io.jsonwebtoken.MalformedJwtException e)
+        {
+            logger.error("Malformed JWT: {}", e.getMessage());
+        }
+        catch (io.jsonwebtoken.UnsupportedJwtException e)
+        {
+            logger.error("Unsupported JWT: {}", e.getMessage());
+        }
+        catch (IllegalArgumentException e)
+        {
+            logger.error("JWT token is empty or null: {}", e.getMessage());
+        }
+//        catch (Exception e)
+//        {
+//            logger.info("Token Invalid: {}", e.toString());
+//            logger.trace("Token Invalid trace: {}", e.toString());
+//        }
         return false;
     }
+
 }

@@ -47,7 +47,7 @@ public class CategoriesController
     {
         try
         {
-            var category = categoryDao.getById(id);
+            Category category = categoryDao.getById(id);
 
             if(category == null)
                 return ResponseEntity.notFound().build();
