@@ -28,6 +28,7 @@ public class OrderController {
     private OrderDao orderDao;
     private ProfileDao profileDao;
 
+    @Autowired
     public OrderController(ShoppingCartDao shoppingCartDao, UserDao userDao, OrderDao orderDao, ProfileDao profileDao) {
         this.shoppingCartDao = shoppingCartDao;
         this.userDao = userDao;

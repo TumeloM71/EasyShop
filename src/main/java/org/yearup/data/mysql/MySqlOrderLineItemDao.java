@@ -27,7 +27,7 @@ public class MySqlOrderLineItemDao extends MySqlDaoBase implements OrderLineItem
         {
             statement.setInt(1,orderLineItem.getOrderId());
             statement.setInt(2, orderLineItem.getLineItem().getProductId());
-            statement.setBigDecimal(3,orderLineItem.getLineItem().getLineTotal());
+            statement.setBigDecimal(3,orderLineItem.getCost());
             statement.setInt(4,orderLineItem.getLineItem().getQuantity());
             statement.setBigDecimal(5, orderLineItem.getLineItem().getDiscountPercent());
 
