@@ -60,6 +60,7 @@ Controller method
 ![Screenshot (169)](https://github.com/user-attachments/assets/67e89073-d53e-4967-8440-b2bbb170a455)
 
 #Intersting code
+
 The product search method. Very basic but I guess it's the one thing that stands out
 ![Screenshot (170)](https://github.com/user-attachments/assets/39210839-a41d-4884-95d2-c82a20215100)
 ![Screenshot (171)](https://github.com/user-attachments/assets/91e81b44-3fb0-4f77-9ee5-e80e5abf99c2)
