@@ -72,10 +72,10 @@ public class ShoppingCartController
 
                 if (optionalShoppingCart.isPresent() && optionalShoppingCart.get().contains(productId)){
                     int newQuantity = optionalShoppingCart.get().get(productId).getQuantity() + 1;
-                    return ResponseEntity.status(HttpStatus.CREATED).body((shoppingCartDao.updateItemQuantity(userId, productId, newQuantity)));
+                    return ResponseEntity.status(HttpStatus.OK).body((shoppingCartDao.updateItemQuantity(userId, productId, newQuantity)));
                 }
                 else
-                    return ResponseEntity.status(HttpStatus.CREATED).body((shoppingCartDao.addToCart(userId, product)));
+                    return ResponseEntity.status(HttpStatus.OK).body((shoppingCartDao.addToCart(userId, product)));
 
             }
             catch(Exception e)
@@ -118,13 +118,13 @@ public class ShoppingCartController
     // https://localhost:8080/cart
     @DeleteMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Void> clearCart(Principal principal){
+    public ResponseEntity<ShoppingCart> clearCart(Principal principal){
 
         String userName = principal.getName();
         User user = userDao.getByUserName(userName);
         int userId = user.getId();
         shoppingCartDao.clearCart(userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new ShoppingCart());
     }
 
 }

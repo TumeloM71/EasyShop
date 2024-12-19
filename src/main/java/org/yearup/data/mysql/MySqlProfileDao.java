@@ -44,12 +44,13 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
         }
     }
 
-    public void update (int userId, Profile profile){
+    public Profile update (int userId, Profile profile){
         String sql = """
                          UPDATE profiles
                          SET first_name = ?, last_name = ?, phone = ?,
-                         email = ?, address = ?, city = ?, state = ?
-                         zip = ?;
+                         email = ?, address = ?, city = ?, state = ?,
+                         zip = ?
+                         WHERE user_id = ?;
                      """;
 
         try( Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql))
@@ -57,15 +58,18 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao
             statement.setString(1, profile.getFirstName());
             statement.setString(2, profile.getLastName());
             statement.setString(3, profile.getPhone());
-            statement.setString(4, profile.getAddress());
-            statement.setString(5, profile.getCity());
-            statement.setString(6, profile.getState());
-            statement.setString(7, profile.getZip());
+            statement.setString(4,profile.getEmail());
+            statement.setString(5, profile.getAddress());
+            statement.setString(6, profile.getCity());
+            statement.setString(7, profile.getState());
+            statement.setString(8, profile.getZip());
+            statement.setInt(9,userId);
 
             int rows = statement.executeUpdate();
             System.out.println("Rows updated");
-
+            return getByUserId(userId);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
