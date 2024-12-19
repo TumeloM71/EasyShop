@@ -15,6 +15,7 @@ This is a demo project for an e-commerce website
 ![Screenshot (155)](https://github.com/user-attachments/assets/be40edd3-5a76-4db1-9d4c-492606463f4f)
 
 #The Search Filter: 
+
 ##By Category
 ![Screenshot (147)](https://github.com/user-attachments/assets/cc86c5f3-e765-460b-86de-eff8023e2e9d)
 ![Screenshot (148)](https://github.com/user-attachments/assets/4a66ec4f-9b28-41a1-aed5-3e4f24b1fdd2)
@@ -34,6 +35,7 @@ This is a demo project for an e-commerce website
 
 #RESTful API endpoints
 These features haven't been implemented on the frontend yet
+
 ##Adding categories as an admin
 JWT tokens used for authorization
 ![Screenshot (158)](https://github.com/user-attachments/assets/0c7dd390-5372-456d-8cc2-8654a1c1c0af)
