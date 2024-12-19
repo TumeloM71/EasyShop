@@ -34,6 +34,7 @@ This is a demo project for an e-commerce website
 ![Screenshot (154)](https://github.com/user-attachments/assets/c6d4a324-7f08-476c-a367-01196985333e)
 
 #RESTful API endpoints
+
 These features haven't been implemented on the frontend yet
 
 ##Adding categories as an admin
