@@ -1,4 +1,4 @@
-This is a demo project for an e-commerce website
+This is a demo project for an e-commerce website. This repository is the server-side code made with Java Spring Boot and MySQL
 
 #Home Page:
 ![Screenshot (142)](https://github.com/user-attachments/assets/a0587c2d-5d65-414b-884f-7e51f5985036)
@@ -30,7 +30,7 @@ This is a demo project for an e-commerce website
 
 #The Profile Page
 ![Screenshot (153)](https://github.com/user-attachments/assets/d1f14884-fe33-40fa-a5f5-2a5f77745c14)
-##Updated made to the profile are persisted on the SQL Database
+##Updates made to the profile are persisted on the SQL Database
 ![Screenshot (154)](https://github.com/user-attachments/assets/c6d4a324-7f08-476c-a367-01196985333e)
 
 #RESTful API endpoints
